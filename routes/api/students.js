@@ -2,6 +2,15 @@ const router = require('express').Router();
 const Student = require('../../db').Student;
 const path = require('path');
 const fs = require('fs');
+var nodemailder = require('nodemailer');
+
+var transporter = nodemailder.createTransport({
+    service : 'gmail',
+    auth : {
+        user : 'mlhomefriend@gmail.com',
+        pass : 'mlhome99'
+    }
+});
 
 // For sendgrid
 const sgMail = require('@sendgrid/mail');
@@ -72,7 +81,7 @@ router.post('/email',function(req,res){
     .catch(function(err){
         console.log(err);
     });
-    res.send("Email send.");
+    res.send("Email send");
 });
 
 function sendEmail(email,name,content,sub){
@@ -82,17 +91,23 @@ function sendEmail(email,name,content,sub){
     console.log(sub);
 
     return new Promise(function(resolve,reject){
-    
-        const msg = {
-            to : 'tanishqsaluja18@gmail.com', // actual email of receiver
-            from : 'tanishqsaluja@outlook.com', // eg. pepcoding@pedcoding.con
-            subject : sub,
-            text : 'With love from Pep.',
+
+        var mailOptions = {
+            from : 'mlhomefriend@gmail.com',
+            to: 'tanishqsaluja18@gmail.com',
+            subjet : sub,
+            text : '',
             html : content
         }
-        sgMail.send(msg);
+    
+        transporter.sendMail(mailOptions,function(error,info){
+            if(error){
+                console.log(error);
+            }else{
+                resolve('Email Send.');    
+            }
+        })
         // When the message is delivered then do resolve(message), to notify it has done executing
-        resolve('Email Send.');    
     });
 }
 
