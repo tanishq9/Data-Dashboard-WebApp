@@ -42,14 +42,15 @@ router.post('/',function(req,res){
     console.log(batch_list);
     console.log(college_list);
 
-    Student.findAll({
-                        attributes: ['index', 'Name','College','Branch','Batch','Email','Phone'],
-                        where: {
-                            Branch: branch_list,
-                            Batch : batch_list,
-                            College : college_list
-                        }
-                    })
+    Student.findAll(
+        {
+            attributes: ['index', 'Name','College','Branch','Batch','Email','Phone'],
+            where: {
+                Branch: branch_list,
+                Batch : batch_list,
+                College : college_list
+                }
+    })
 
     .then(function(students){
         res.send(students);

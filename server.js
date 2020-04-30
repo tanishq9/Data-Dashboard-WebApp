@@ -10,6 +10,6 @@ app.use(cors());
 app.use('/',express.static(__dirname+'/public'));
 app.use('/api/students',require('./routes/api/students'))
 
-app.listen(4444,function(){
+app.listen(3333,function(){
     console.log('Server started.');
 });
